@@ -7,15 +7,16 @@ import axios from 'axios';
 
 
 async function getFronts() {
- 
-  const token = localStorage.getItem('token');
 
 
-  const res = await fetch('https://pocketbase.greiv.in/api/collections/fronts/records/t7t5ml9ph7dd4lf',{ headers: {Authentication: token}, 
-  'Content-Type': 'application/json'  }, { cache: 'no-store' });
+  
+  const res = await fetch('https://pocketbase.greiv.in/api/collections/fronts/records/t7t5ml9ph7dd4lf', { cache: 'no-store' });
+
+  //const res = await fetch('https://pocketbase.greiv.in/api/collections/fronts/records/t7t5ml9ph7dd4lf',{ headers: {Token:token}, 
+  //'Content-Type': 'application/json'  }, { cache: 'no-store' });
   const data = await res.json();
   console.log(data);
-  return data?.item;
+  return data;
 }
 
 async function getToken(){
@@ -26,34 +27,29 @@ async function getToken(){
   setIdentity('gcruzrios');
   setPassword('Cncr240675%%$$01');
     
- 
-  
-
   const response = await fetch('https://pocketbase.greiv.in/api/admins/auth-with-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'        
       },body:JSON.stringify({identity, password})});
    
+      
    const admin = await response.json();
    console.log(admin);
    setAdminToken(admin.token)
    localStorage.setItem('token', adminToken);
+   return (admin.token)
 }
 
 
 async function  Hero() {
- 
-
- // const fronts = await getFronts();
-
-  
 
 
-  useEffect(() => {
-    getToken();
-    
-  }, []);
+   const fronts = await getFronts();
+   //const tokenAdmin =  await getToken();
+  //   useEffect(() => {
+  //     getToken();
+  //  }, []);
 
   return (
     <div>
@@ -63,13 +59,13 @@ async function  Hero() {
           <div className="row align-items-center">
             <div className="col-lg-6">
               <div className="left-content-hero-v2">
-                <h5>Get Started With Ortencey</h5>
+                <h5>{fronts.title}</h5>
                 <h1>
-                  We Are The Best Digital <strong>Marketing</strong> Agency.
+                  {fronts.resume}
                 </h1>
                 <p>
-                  The 3 golden rules professional Digital Marketing Agency don’t
-                  want you to know about.
+                <div dangerouslySetInnerHTML={{ __html: fronts.content }} />
+                  {/* {fronts.content} */}
                 </p>
                 <div className="btn-groups">
                   <a href="#" className="btn btn-default">
@@ -85,7 +81,8 @@ async function  Hero() {
             <div className="col-lg-6">
               <div className="right-content-herov2">
                 <div className="imgs">
-                  <img src="img/home2/hero-img.png" data-aos="fade-up" alt="" />
+                <img src="img/home2/hero-img.png" alt=""/>
+                  {/* <img src="img/home2/hero-img.png" data-aos="fade-up" alt="" /> */}
                 </div>
               </div>
               {/* <!--/.right-content-hero--> */}
