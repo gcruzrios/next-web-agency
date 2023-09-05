@@ -1,8 +1,60 @@
 
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
 
-function Hero() {
+
+
+
+async function getFronts() {
+ 
+  const token = localStorage.getItem('token');
+
+
+  const res = await fetch('https://pocketbase.greiv.in/api/collections/fronts/records/t7t5ml9ph7dd4lf',{ headers: {Authentication: token}, 
+  'Content-Type': 'application/json'  }, { cache: 'no-store' });
+  const data = await res.json();
+  console.log(data);
+  return data?.item;
+}
+
+async function getToken(){
+
+  const [adminToken, setAdminToken] = useState('');
+  const [identity, setIdentity]= useState('');
+  const [password, setPassword]= useState('');
+  setIdentity('gcruzrios');
+  setPassword('Cncr240675%%$$01');
+    
+ 
+  
+
+  const response = await fetch('https://pocketbase.greiv.in/api/admins/auth-with-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'        
+      },body:JSON.stringify({identity, password})});
+   
+   const admin = await response.json();
+   console.log(admin);
+   setAdminToken(admin.token)
+   localStorage.setItem('token', adminToken);
+}
+
+
+async function  Hero() {
+ 
+
+ // const fronts = await getFronts();
+
+  
+
+
+  useEffect(() => {
+    getToken();
+    
+  }, []);
+
   return (
     <div>
       {/* <!--hero section start--> */}

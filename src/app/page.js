@@ -19,9 +19,9 @@ export default function Home() {
       <TopHeader /> 
       <SliderCart/>
       <Hero/>
-      <ServicesHome/> 
-      <SingleService/>
-      <BlogHome/>
+      {/* <ServicesHome/>  */}
+      {/* <SingleService/> */}
+      {/* <BlogHome/> */}
       {/* <Partners/>  */}
       <Footer/>
     </div>
